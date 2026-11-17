@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inicio · Panel del Kernel | OVA Sistemas Operativos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="inicio" data-title-key="page_title_index">
+  <div id="progreso" aria-hidden="true"></div>
+
+  <!-- Fondo tecnológico tipo placa base / circuitos -->
+  <div class="circuit-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="traceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#1ef58c" stop-opacity="0.12"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#traceGrad)" stroke-width="1.5" fill="none">
+        <path d="M0 120 H180 L230 170 H420"/>
+        <path d="M0 760 H160 L220 700 H380 L430 750 H680"/>
+        <path d="M1440 180 H1240 L1180 240 H980"/>
+        <path d="M1440 810 H1190 L1120 740 H890"/>
+        <path d="M60 880 L190 750 L310 870"/>
+      </g>
+      <g fill="#00e5ff" fill-opacity="0.28">
+        <circle cx="420" cy="170" r="4"/>
+        <circle cx="980" cy="240" r="4"/>
+        <circle cx="680" cy="750" r="4"/>
+        <circle cx="890" cy="740" r="4"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Encabezado Superior -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand" aria-label="OVA Sistemas Operativos">
+        <div class="logo-ring">
+          <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="brand-logo">
+        </div>
+        <div class="brand-text">
+          <span class="brand-title" data-i18n-html="brand_title">OVA <span class="brand-dot">•</span> Sistemas Operativos</span>
+          <span class="brand-sub" data-i18n="brand_sub">Kernel educativo · Universidad Simón Bolívar</span>
+        </div>
+      </a>
+
+      <div class="topbar-controls">
+        <!-- Selector de Idioma Español / Inglés -->
+        <div class="lang-switch" role="group" aria-label="Selector de idioma / Language selector">
+          <span class="lang-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </span>
+          <button type="button" class="lang-btn" data-lang="es" aria-pressed="true" title="Español">ES</button>
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English">EN</button>
+        </div>
+
+        <div class="progress-widget" aria-label="Progreso del curso">
+          <div class="progress-info">
+            <div class="progress-label-row">
+              <span class="progress-label"><span data-i18n="progress_label">Progreso del curso:</span> <strong id="course-pct">0%</strong></span>
+              <span class="progress-status" id="course-state-label">Requisito pendiente</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="course-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="user-chip" data-i18n-title="session_chip_title" title="Estado de sesión del estudiante">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="3"/>
+              <path d="M9 9h6v6H9z"/>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal con Barra Lateral Prioritaria -->
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal del OVA">
+      <div class="sidebar-section-label" data-i18n="nav_section">Ruta de aprendizaje</div>
+      <nav class="side-nav">
+        <!-- Paso 1: Test obligatorio siempre primero -->
+        <a href="evaluacion.html" class="nav-item nav-test" id="nav-test">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_test">Test obligatorio</span>
+          <span class="step-badge" id="test-badge">Paso 1</span>
+        </a>
+
+        <a href="index.html" class="nav-item nav-lockable active" data-requires-test="true" data-target="index.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_home">Inicio</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="embebidos.html" class="nav-item nav-lockable" data-requires-test="true" data-target="embebidos.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="6" width="12" height="12" rx="2"/>
+              <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_emb">Sistemas embebidos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tiempo-real.html" class="nav-item nav-lockable" data-requires-test="true" data-target="tiempo-real.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 3"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_rt">Sistemas en tiempo real</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tolerancia.html" class="nav-item nav-lockable" data-requires-test="true" data-target="tolerancia.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_ft">Tolerancia a fallos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+      </nav>
+
+    </aside>
+    <div class="main-area">
+      <main class="dashboard-main">
+        <div class="section-header-row">
+          <h1 class="section-heading" id="hero-section-title" data-i18n="idx_sec_req">Requisito inicial</h1>
+          <span class="kernel-tag" data-i18n="idx_sys_tag">Sys_Auth // Paso 1 obligatorio</span>
+        </div>
+
+        <!-- Tarjeta Hero: Test obligatorio (Paso 1) -->
+        <section class="hero-card" id="hero-test-card" aria-labelledby="hero-title">
+          <div class="hero-content">
+            <div class="hero-pill" id="hero-pill">Paso 1 • Requisito inicial</div>
+            <h2 class="hero-title" id="hero-title">Test obligatorio</h2>
+            <p class="hero-desc" id="hero-desc">
+              Antes de explorar los módulos del OVA debes aprobar un test corto de <strong>9 preguntas</strong> sobre
+              <strong>Memoria virtual</strong>, <strong>Entrada/Salida</strong> y <strong>Seguridad</strong>
+              (mínimo <strong>6 respuestas correctas</strong>).
+            </p>
+
+            <!-- Diagrama Técnico Kernel / CPU / Circuitos -->
+            <div class="kernel-schematic" aria-hidden="true">
+              <svg viewBox="0 0 640 190" class="schematic-svg">
+                <defs>
+                  <linearGradient id="chipGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.28"/>
+                    <stop offset="100%" stop-color="#1ef58c" stop-opacity="0.18"/>
+                  </linearGradient>
+                </defs>
+                <g stroke="#00e5ff" stroke-width="2" fill="none" opacity="0.8">
+                  <path d="M20 45 H115 L140 70 H245"/>
+                  <path d="M20 95 H245"/>
+                  <path d="M20 145 H125 L150 120 H245"/>
+                </g>
+                <g fill="#00e5ff">
+                  <circle cx="20" cy="45" r="4"/><circle cx="20" cy="95" r="4"/><circle cx="20" cy="145" r="4"/>
+                </g>
+                <rect x="65" y="22" width="76" height="32" rx="6" fill="#091a32" stroke="#00e5ff" stroke-width="1.5"/>
+                <text x="103" y="42" text-anchor="middle" fill="#67f3ff" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700">CPU</text>
+                <text x="72" y="86" fill="#1ef58c" font-family="JetBrains Mono, monospace" font-size="11">01011010</text>
+                <text x="52" y="164" fill="#1ef58c" font-family="JetBrains Mono, monospace" font-size="11">010101010</text>
+
+                <g stroke="#1ef58c" stroke-width="3">
+                  <line x1="270" y1="36" x2="270" y2="52"/><line x1="290" y1="36" x2="290" y2="52"/>
+                  <line x1="310" y1="36" x2="310" y2="52"/><line x1="330" y1="36" x2="330" y2="52"/>
+                  <line x1="350" y1="36" x2="350" y2="52"/><line x1="370" y1="36" x2="370" y2="52"/>
+                  <line x1="270" y1="138" x2="270" y2="154"/><line x1="290" y1="138" x2="290" y2="154"/>
+                  <line x1="310" y1="138" x2="310" y2="154"/><line x1="330" y1="138" x2="330" y2="154"/>
+                  <line x1="350" y1="138" x2="350" y2="154"/><line x1="370" y1="138" x2="370" y2="154"/>
+                </g>
+
+                <rect x="245" y="52" width="150" height="86" rx="12" fill="url(#chipGlow)" stroke="#1ef58c" stroke-width="2.5"/>
+                <rect x="255" y="62" width="130" height="66" rx="8" fill="#071529" stroke="#00e5ff" stroke-width="1.2"/>
+                <text x="320" y="101" text-anchor="middle" fill="#e6fbff" font-family="Chakra Petch, sans-serif" font-size="22" font-weight="700" letter-spacing="1.5">Kernel</text>
+
+                <g stroke="#00e5ff" stroke-width="2" fill="none" opacity="0.8">
+                  <path d="M395 70 H495 L520 45 H620"/>
+                  <path d="M395 95 H620"/>
+                  <path d="M395 120 H490 L515 145 H620"/>
+                </g>
+                <g fill="#1ef58c">
+                  <circle cx="620" cy="45" r="4"/><circle cx="620" cy="95" r="4"/><circle cx="620" cy="145" r="4"/>
+                </g>
+                <text x="515" y="34" fill="#1ef58c" font-family="JetBrains Mono, monospace" font-size="11">0101010100</text>
+                <text x="530" y="86" fill="#67f3ff" font-family="JetBrains Mono, monospace" font-size="11">010110</text>
+                <rect x="495" y="132" width="76" height="32" rx="6" fill="#091a32" stroke="#00e5ff" stroke-width="1.5"/>
+                <text x="533" y="152" text-anchor="middle" fill="#67f3ff" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700">CPU</text>
+              </svg>
+            </div>
+
+            <div class="hero-actions">
+              <a href="evaluacion.html" class="btn-neon btn-hero" id="hero-cta-btn">Iniciar test obligatorio →</a>
+              <div class="hero-meta">
+                <span data-i18n="idx_hero_meta">Objetivo: Sistemas de tiempo real, embebidos y tolerancia a fallos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta lateral derecha: Administración de procesos e hilos -->
+          <div class="hero-side-panel">
+            <div class="panel-mini-title" data-i18n="idx_side_title">Administración de procesos e hilos</div>
+            <div class="threads-visual" aria-hidden="true">
+              <svg viewBox="0 0 340 165" class="mini-svg">
+                <g stroke="#00e5ff" stroke-width="2" fill="none">
+                  <circle cx="42" cy="52" r="20" fill="#091a32"/>
+                  <circle cx="105" cy="28" r="18" fill="#091a32"/>
+                  <circle cx="168" cy="28" r="18" fill="#091a32"/>
+                  <circle cx="105" cy="112" r="18" fill="#091a32"/>
+                  <circle cx="168" cy="112" r="18" fill="#091a32"/>
+                  <path d="M62 52 H78 V28 H87"/>
+                  <path d="M123 28 H150"/>
+                  <path d="M62 52 H78 V112 H87"/>
+                  <path d="M105 46 V94"/>
+                  <path d="M168 46 V94"/>
+                </g>
+                <g fill="#8bf5ff" font-family="Inter, sans-serif" font-size="11" font-weight="600" text-anchor="middle">
+                  <text x="42" y="56" data-i18n="svg_thread">Hilo</text>
+                  <text x="105" y="32" data-i18n="svg_thread">Hilo</text>
+                  <text x="168" y="32" data-i18n="svg_thread">Hilo</text>
+                </g>
+                <text x="210" y="24" fill="#67f3ff" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" data-i18n="svg_cpu_sched">Planificación CPU</text>
+                <g fill="#1ef58c" opacity="0.85">
+                  <rect x="210" y="55" width="4" height="35"/><rect x="218" y="45" width="4" height="45"/>
+                  <rect x="226" y="38" width="4" height="52"/><rect x="234" y="48" width="4" height="42"/>
+                  <rect x="242" y="58" width="4" height="32"/><rect x="250" y="64" width="4" height="26"/>
+                  <rect x="258" y="52" width="4" height="38"/><rect x="266" y="42" width="4" height="48"/>
+                  <rect x="274" y="49" width="4" height="41"/><rect x="282" y="60" width="4" height="30"/>
+                  <rect x="290" y="54" width="4" height="36"/><rect x="298" y="44" width="4" height="46"/>
+                  <rect x="306" y="50" width="4" height="40"/><rect x="314" y="62" width="4" height="28"/>
+                </g>
+                <g fill="#00e5ff" opacity="0.85">
+                  <rect x="210" y="115" width="4" height="32"/><rect x="218" y="105" width="4" height="42"/>
+                  <rect x="226" y="122" width="4" height="25"/><rect x="234" y="110" width="4" height="37"/>
+                  <rect x="242" y="100" width="4" height="47"/><rect x="250" y="118" width="4" height="29"/>
+                  <rect x="258" y="108" width="4" height="39"/><rect x="266" y="116" width="4" height="31"/>
+                  <rect x="274" y="102" width="4" height="45"/><rect x="282" y="112" width="4" height="35"/>
+                  <rect x="290" y="98" width="4" height="49"/><rect x="298" y="114" width="4" height="33"/>
+                  <rect x="306" y="106" width="4" height="41"/><rect x="314" y="120" width="4" height="27"/>
+                </g>
+              </svg>
+            </div>
+            <div class="panel-mini-caption" data-i18n-html="idx_side_cap">
+              Planificación periódica: <strong>Tasa monótona (RM)</strong> y <strong>Plazo más próximo (EDF)</strong>.
+            </div>
+          </div>
+        </section>
+
+        <!-- Sección Módulos de aprendizaje -->
+        <div class="section-header-row" style="margin-top: 2rem;">
+          <h2 class="section-heading" data-i18n="idx_sec_mods">Módulos de aprendizaje</h2>
+          <span class="modules-lock-status" id="modules-lock-banner">🔒 Se desbloquean al aprobar el test obligatorio</span>
+        </div>
+
+        <section class="modules-grid" aria-label="Módulos del OVA">
+          <!-- Módulo 1: Sistemas embebidos -->
+          <a href="embebidos.html" class="module-card lockable-card" data-requires-test="true" data-target="embebidos.html">
+            <div class="module-card-top">
+              <span class="module-tag" data-i18n="mod_tag_1">Módulo 01</span>
+              <span class="module-padlock">🔒</span>
+            </div>
+            <h3 data-i18n="mod1_title">Sistemas embebidos</h3>
+            <p data-i18n="mod1_desc">Dispositivos con recursos limitados, microcontroladores, firmware y tres formas de construir su software.</p>
+            <div class="module-graphic" aria-hidden="true">
+              <svg viewBox="0 0 260 95" class="card-svg">
+                <rect x="20" y="22" width="54" height="50" rx="8" fill="#091a32" stroke="#00e5ff" stroke-width="1.8"/>
+                <text x="47" y="51" text-anchor="middle" fill="#67f3ff" font-size="11" font-weight="700" data-i18n="svg_sensor">Sensor</text>
+                <path d="M74 47 H102" stroke="#1ef58c" stroke-width="2.5"/>
+                <rect x="102" y="16" width="56" height="62" rx="8" fill="#0b223d" stroke="#1ef58c" stroke-width="2"/>
+                <text x="130" y="45" text-anchor="middle" fill="#e6fbff" font-size="11" font-weight="700">MCU</text>
+                <text x="130" y="60" text-anchor="middle" fill="#1ef58c" font-size="9">RTOS</text>
+                <path d="M158 47 H186" stroke="#1ef58c" stroke-width="2.5"/>
+                <rect x="186" y="22" width="54" height="50" rx="8" fill="#091a32" stroke="#00e5ff" stroke-width="1.8"/>
+                <text x="213" y="51" text-anchor="middle" fill="#67f3ff" font-size="10" font-weight="700" data-i18n="svg_actuator">Actuador</text>
+              </svg>
+            </div>
+            <div class="module-footer">
+              <span class="module-action-text">Requiere test Paso 1</span>
+              <span class="arrow">→</span>
+            </div>
+          </a>
+
+          <!-- Módulo 2: Sistemas en tiempo real -->
+          <a href="tiempo-real.html" class="module-card lockable-card" data-requires-test="true" data-target="tiempo-real.html">
+            <div class="module-card-top">
+              <span class="module-tag" data-i18n="mod_tag_2">Módulo 02</span>
+              <span class="module-padlock">🔒</span>
+            </div>
+            <h3 data-i18n="mod2_title">Sistemas en tiempo real</h3>
+            <p data-i18n-html="mod2_desc">Plazos estrictos (<em>hard</em>) y flexibles (<em>soft</em>), prioridades con expulsión, latencias y planificación RM / EDF.</p>
+            <div class="module-graphic" aria-hidden="true">
+              <svg viewBox="0 0 260 95" class="card-svg">
+                <rect x="16" y="20" width="60" height="24" rx="4" fill="#1ef58c" fill-opacity="0.85"/>
+                <text x="46" y="36" text-anchor="middle" fill="#051324" font-size="11" font-weight="700">P1 (RM)</text>
+                <rect x="80" y="20" width="84" height="24" rx="4" fill="#00e5ff" fill-opacity="0.85"/>
+                <text x="122" y="36" text-anchor="middle" fill="#051324" font-size="11" font-weight="700">P2 (EDF)</text>
+                <rect x="168" y="20" width="60" height="24" rx="4" fill="#1ef58c" fill-opacity="0.85"/>
+                <text x="198" y="36" text-anchor="middle" fill="#051324" font-size="11" font-weight="700">P1</text>
+                <line x1="16" y1="62" x2="244" y2="62" stroke="#5b7a9d" stroke-width="1.5"/>
+                <line x1="228" y1="14" x2="228" y2="74" stroke="#ff5c7c" stroke-width="2" stroke-dasharray="4 3"/>
+                <text x="228" y="86" text-anchor="middle" fill="#ff7a95" font-size="10" font-weight="700" data-i18n="svg_deadline">Plazo</text>
+              </svg>
+            </div>
+            <div class="module-footer">
+              <span class="module-action-text">Requiere test Paso 1</span>
+              <span class="arrow">→</span>
+            </div>
+          </a>
+
+          <!-- Módulo 3: Tolerancia a fallos -->
+          <a href="tolerancia.html" class="module-card lockable-card" data-requires-test="true" data-target="tolerancia.html">
+            <div class="module-card-top">
+              <span class="module-tag" data-i18n="mod_tag_3">Módulo 03</span>
+              <span class="module-padlock">🔒</span>
+            </div>
+            <h3 data-i18n="mod3_title">Tolerancia a fallos</h3>
+            <p data-i18n="mod3_desc">Detección con mensajes «estoy vivo», reconfiguración ante caídas, degradación elegante y recuperación.</p>
+            <div class="module-graphic" aria-hidden="true">
+              <svg viewBox="0 0 260 95" class="card-svg">
+                <g stroke="#00e5ff" stroke-width="2" fill="none">
+                  <rect x="108" y="10" width="44" height="24" rx="5" fill="#091a32"/>
+                  <rect x="28" y="58" width="44" height="24" rx="5" fill="#091a32"/>
+                  <rect x="108" y="58" width="44" height="24" rx="5" fill="#091a32"/>
+                  <rect x="188" y="58" width="44" height="24" rx="5" fill="#091a32" stroke="#1ef58c"/>
+                  <path d="M130 34 V46 H50 V58 M130 46 V58 M130 46 H210 V58"/>
+                </g>
+                <g fill="#8bf5ff" font-size="9" font-weight="700" text-anchor="middle">
+                  <text x="130" y="25" data-i18n="svg_coord">Coord.</text>
+                  <text x="50" y="73" data-i18n="svg_node_a">Nodo A</text>
+                  <text x="130" y="73" data-i18n="svg_node_b">Nodo B</text>
+                  <text x="210" y="73" fill="#1ef58c" data-i18n="svg_backup">Respaldo</text>
+                </g>
+              </svg>
+            </div>
+            <div class="module-footer">
+              <span class="module-action-text">Requiere test Paso 1</span>
+              <span class="arrow">→</span>
+            </div>
+          </a>
+
+        </section>
+
+        <!-- Objetivo de aprendizaje y guía de uso -->
+        <section class="obj-banner">
+          <div class="obj-block">
+            <h3 data-i18n="obj_learn_title">Objetivo de aprendizaje</h3>
+            <p data-i18n="obj_learn_desc">Explicar las características de los sistemas de tiempo real, los sistemas embebidos y la tolerancia a fallos, y relacionarlos con las decisiones de diseño de un sistema operativo.</p>
+          </div>
+          <div class="obj-block">
+            <h3 data-i18n="obj_use_title">Cómo usar este OVA</h3>
+            <p data-i18n-html="obj_use_desc">Primero debes aprobar el <strong>Test obligatorio (Paso 1)</strong> sobre Memoria virtual, E/S y Seguridad. Cada tema incluye explicaciones con pestañas y secciones desplegables, esquemas ilustrados, ejemplos y un resumen de ideas clave basado en <em>Silberschatz, Galvin y Gagne (2006)</em>.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-details">
+            <div class="footer-academic-list">
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_faculty">Facultad de Ingeniería</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_program">Ingeniería de Sistemas</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_course"><strong>Asignatura:</strong> Sistemas Operativos</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_teacher"><strong>Docente:</strong> Alvaro Salamanca Lándinez</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_author"><strong>Desarrollado por:</strong> Andrea Rodríguez</span></div>
+            </div>
+            <div class="footer-ref" data-i18n-html="ft_ref">
+              <strong>Referencia bibliográfica (APA 7.ª):</strong> Silberschatz, A., Galvin, P. B., &amp; Gagne, G. (2006). <em>Fundamentos de sistemas operativos</em> (7.ª ed.). McGraw-Hill.
+            </div>
+          </div>
+          <div class="footer-brand">
+            <div class="footer-logo-ring">
+              <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="footer-so-logo">
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal / Toast de Bloqueo del Kernel -->
+  <div class="gate-modal" id="gate-modal" hidden role="dialog" aria-modal="true" aria-labelledby="gate-modal-title">
+    <div class="gate-modal-card">
+      <div class="gate-modal-badge" data-i18n="modal_badge">🔒 Acceso restringido por el kernel</div>
+      <h3 id="gate-modal-title" data-i18n="modal_title">Completa primero el test obligatorio</h3>
+      <p data-i18n-html="modal_body">Para ingresar a <strong id="gate-target-name">este módulo</strong>, primero debes aprobar el <strong>Test obligatorio (Paso 1)</strong> sobre Memoria virtual, Entrada/Salida y Seguridad (mínimo 6 de 9 respuestas correctas).</p>
+      <div class="gate-modal-actions">
+        <a href="evaluacion.html" class="btn-neon" data-i18n="modal_cta">Iniciar test obligatorio →</a>
+        <button type="button" class="btn-ghost" id="close-gate-modal" data-i18n="modal_close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

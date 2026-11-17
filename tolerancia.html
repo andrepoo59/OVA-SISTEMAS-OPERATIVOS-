@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tolerancia a fallos | OVA Sistemas Operativos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="tolerancia" data-title-key="page_title_ft" data-gate>
+  <div id="progreso" aria-hidden="true"></div>
+
+  <!-- Fondo tecnológico tipo placa base / circuitos -->
+  <div class="circuit-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="traceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#1ef58c" stop-opacity="0.12"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#traceGrad)" stroke-width="1.5" fill="none">
+        <path d="M0 120 H180 L230 170 H420"/>
+        <path d="M0 760 H160 L220 700 H380 L430 750 H680"/>
+        <path d="M1440 180 H1240 L1180 240 H980"/>
+        <path d="M1440 810 H1190 L1120 740 H890"/>
+        <path d="M60 880 L190 750 L310 870"/>
+      </g>
+      <g fill="#00e5ff" fill-opacity="0.28">
+        <circle cx="420" cy="170" r="4"/>
+        <circle cx="980" cy="240" r="4"/>
+        <circle cx="680" cy="750" r="4"/>
+        <circle cx="890" cy="740" r="4"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Encabezado Superior -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand" aria-label="OVA Sistemas Operativos">
+        <div class="logo-ring">
+          <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="brand-logo">
+        </div>
+        <div class="brand-text">
+          <span class="brand-title" data-i18n-html="brand_title">OVA <span class="brand-dot">•</span> Sistemas Operativos</span>
+          <span class="brand-sub" data-i18n="brand_sub">Kernel educativo · Universidad Simón Bolívar</span>
+        </div>
+      </a>
+
+      <div class="topbar-controls">
+        <!-- Selector de Idioma Español / Inglés -->
+        <div class="lang-switch" role="group" aria-label="Selector de idioma / Language selector">
+          <span class="lang-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </span>
+          <button type="button" class="lang-btn" data-lang="es" aria-pressed="true" title="Español">ES</button>
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English">EN</button>
+        </div>
+
+        <div class="progress-widget" aria-label="Progreso del curso">
+          <div class="progress-info">
+            <div class="progress-label-row">
+              <span class="progress-label"><span data-i18n="progress_label">Progreso del curso:</span> <strong id="course-pct">0%</strong></span>
+              <span class="progress-status" id="course-state-label">Requisito pendiente</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="course-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="user-chip" data-i18n-title="session_chip_title" title="Estado de sesión del estudiante">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="3"/>
+              <path d="M9 9h6v6H9z"/>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal con Barra Lateral Prioritaria -->
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal del OVA">
+      <div class="sidebar-section-label" data-i18n="nav_section">Ruta de aprendizaje</div>
+      <nav class="side-nav">
+        <!-- Paso 1: Test obligatorio siempre primero -->
+        <a href="evaluacion.html" class="nav-item nav-test" id="nav-test">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_test">Test obligatorio</span>
+          <span class="step-badge" id="test-badge">Paso 1</span>
+        </a>
+
+        <a href="index.html" class="nav-item nav-lockable" data-requires-test="true" data-target="index.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_home">Inicio</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="embebidos.html" class="nav-item nav-lockable" data-requires-test="true" data-target="embebidos.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="6" width="12" height="12" rx="2"/>
+              <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_emb">Sistemas embebidos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tiempo-real.html" class="nav-item nav-lockable" data-requires-test="true" data-target="tiempo-real.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 3"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_rt">Sistemas en tiempo real</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tolerancia.html" class="nav-item nav-lockable active" data-requires-test="true" data-target="tolerancia.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_ft">Tolerancia a fallos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+      </nav>
+
+      <div class="kernel-box">
+        <div class="kernel-box-head">
+          <span class="status-led" id="kernel-led"></span>
+          <span>Kernel_Gate</span>
+        </div>
+        <pre class="kernel-log" id="kernel-sidebar-log">$ kernel_init
+gate_mode: strict
+modules: locked
+req: test_paso_1</pre>
+        <button type="button" class="btn-reset-progress" id="btn-reset-progress" data-i18n="btn_reset" title="Reiniciar estado del test y progreso">
+          ↺ Reiniciar demo
+        </button>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <main class="content-main">
+        <div class="page-header-card">
+          <div class="hero-pill" data-i18n="ft_pill">Módulo 03 • Robustez en sistemas distribuidos</div>
+          <h1 data-i18n="ft_h1">Tolerancia a fallos</h1>
+          <div class="obj" data-i18n-html="ft_obj"><strong>Objetivo:</strong> describir cómo un sistema distribuido detecta, reconfigura y se recupera de un fallo.</div>
+        </div>
+
+        <p data-i18n="ft_p1">Un sistema tolerante a fallos sigue funcionando pese a ellos, aunque sea con menos capacidad (degradación elegante). En un sistema distribuido hay más piezas que pueden fallar, y por eso es indispensable planificar cómo reaccionar.</p>
+
+        <h3 data-i18n="ft_what_h3">¿Qué puede fallar?</h3>
+        <ul>
+          <li data-i18n-html="ft_f1"><strong>Fallo de un enlace:</strong> la conexión entre dos sitios deja de funcionar.</li>
+          <li data-i18n-html="ft_f2"><strong>Fallo de un sitio:</strong> una computadora completa se detiene.</li>
+          <li data-i18n-html="ft_f3"><strong>Pérdida de mensajes:</strong> la información se pierde en la red.</li>
+          <li data-i18n-html="ft_f4"><strong>Partición de la red:</strong> varios fallos dejan grupos de sitios aislados entre sí.</li>
+        </ul>
+        <p class="cita" data-i18n="ft_cite1">Fuente: Silberschatz et al. (2006), capítulo de estructuras de sistemas distribuidos, apartado «Robustez».</p>
+
+        <h2 data-i18n="ft_stages_h2">Las tres etapas</h2>
+        <figure class="tech-figure">
+          <svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" font-family="Inter, Segoe UI, sans-serif" role="img" aria-labelledby="tfetapas_t tfetapas_d">
+            <title id="tfetapas_t" data-i18n="ft_svg1_t">Etapas de la robustez ante fallos</title>
+            <desc id="tfetapas_d" data-i18n="ft_svg1_d">Tras un fallo en la operación normal, el sistema pasa por detección, reconfiguración y recuperación para volver a la operación normal.</desc>
+            <defs>
+              <marker id="tfetapas_a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <path d="M0 0L10 5L0 10z" fill="#1ef58c"/>
+              </marker>
+            </defs>
+            <rect width="760" height="230" rx="12" fill="#071324"/>
+            <g font-size="14" font-weight="700" text-anchor="middle">
+              <rect x="5" y="50" width="145" height="64" rx="10" fill="#0c203b" stroke="#00e5ff" stroke-width="2"/><text x="77" y="87" fill="#67f3ff" data-i18n="ft_svg1_op">Operación normal</text>
+              <rect x="206" y="50" width="145" height="64" rx="10" fill="#1ef58c"/><text x="278" y="87" fill="#041222" data-i18n="ft_svg1_s1">1. Detección</text>
+              <rect x="407" y="50" width="145" height="64" rx="10" fill="#00d4ff"/><text x="479" y="87" fill="#041222" data-i18n="ft_svg1_s2">2. Reconfiguración</text>
+              <rect x="608" y="50" width="145" height="64" rx="10" fill="#1ef58c"/><text x="680" y="87" fill="#041222" data-i18n="ft_svg1_s3">3. Recuperación</text>
+            </g>
+            <g stroke="#1ef58c" stroke-width="3" fill="none"><path d="M150 82H204" marker-end="url(#tfetapas_a)"/><path d="M351 82H405" marker-end="url(#tfetapas_a)"/><path d="M552 82H606" marker-end="url(#tfetapas_a)"/><path d="M680 160V178H77V116" marker-end="url(#tfetapas_a)" stroke-dasharray="6 5"/></g>
+            <text x="178" y="42" font-size="13" font-weight="700" fill="#ff7a95" text-anchor="middle" data-i18n="ft_svg1_fail">Fallo</text>
+            <g font-size="12" fill="#d8eef8" text-anchor="middle">
+              <text x="278" y="134" data-i18n="ft_svg1_d1a">Mensajes «estoy vivo»</text>
+              <text x="278" y="150" data-i18n="ft_svg1_d1b">y tiempo de espera</text>
+              <text x="479" y="134" data-i18n="ft_svg1_d2a">Avisar a los sitios y</text>
+              <text x="479" y="150" data-i18n="ft_svg1_d2b">dejar de usar lo caído</text>
+              <text x="680" y="134" data-i18n="ft_svg1_d3a">Reintegrar el sitio o</text>
+            </g>
+            <text x="378" y="200" font-size="13" fill="#9bc2df" text-anchor="middle" data-i18n="ft_svg1_back">Vuelve a la operación normal</text>
+            <text x="680" y="150" font-size="12" fill="#d8eef8" text-anchor="middle" data-i18n="ft_svg1_d3b">enlace reparado</text>
+          </svg>
+          <figcaption data-i18n="ft_fig1_cap">Figura 1. Ciclo de respuesta ante un fallo.</figcaption>
+        </figure>
+
+        <div class="tabs" role="tablist">
+          <button role="tab" aria-selected="true" data-p="d" data-i18n="ft_tab_d">Detección</button>
+          <button role="tab" aria-selected="false" data-p="r" data-i18n="ft_tab_r">Reconfiguración</button>
+          <button role="tab" aria-selected="false" data-p="c" data-i18n="ft_tab_c">Recuperación</button>
+        </div>
+        <div class="panel" id="d"><p data-i18n="ft_panel_d">Los sitios intercambian mensajes periódicos «estoy vivo». Si uno no llega antes del tiempo de espera, se sospecha un fallo. El sitio que espera no puede distinguir si cayó el sitio remoto o el enlace. Puede enviar un mensaje «¿estás vivo?» y probar una ruta alterna: si recibe respuesta por otra ruta, falló el enlace; si no, el sitio, o todas las rutas, pueden haber caído.</p></div>
+        <div class="panel" id="r" hidden><p data-i18n="ft_panel_r">Se informa a los demás sitios del fallo y se deja de usar el recurso caído. Si el sitio fallido era un coordinador, hay que elegir uno nuevo. Si la caída de un enlace parte la red en grupos aislados, cada grupo debe seguir con lo que pueda hacer sin el resto.</p></div>
+        <div class="panel" id="c" hidden><p data-i18n="ft_panel_c">Cuando el enlace o el sitio vuelve a funcionar, se notifica a los demás y se reintegra al sistema de forma ordenada. El sitio recuperado debe ponerse al día con lo ocurrido durante su ausencia antes de volver a participar.</p></div>
+
+        <figure class="tech-figure">
+          <svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 350" font-family="Inter, Segoe UI, sans-serif" role="img" aria-labelledby="tfheartbeat_t tfheartbeat_d">
+            <title id="tfheartbeat_t" data-i18n="ft_svg2_t">Detección de un fallo con mensajes «estoy vivo»</title>
+            <desc id="tfheartbeat_d" data-i18n="ft_svg2_d">El sitio B envía mensajes periódicos al sitio A. Tras un fallo de B, el mensaje esperado no llega, vence el tiempo de espera y A sospecha del fallo.</desc>
+            <defs>
+              <marker id="tfheartbeat_a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1ef58c"/></marker>
+              <marker id="tfheartbeat_g" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#67f3ff"/></marker>
+            </defs>
+            <rect width="760" height="350" rx="12" fill="#071324"/>
+            <g font-size="15" font-weight="700" fill="#041222" text-anchor="middle">
+              <rect x="90" y="10" width="120" height="34" rx="6" fill="#1ef58c"/><text x="150" y="33" data-i18n="ft_svg2_sa">Sitio A</text>
+              <rect x="550" y="10" width="120" height="34" rx="6" fill="#00e5ff"/><text x="610" y="33" data-i18n="ft_svg2_sb">Sitio B</text>
+            </g>
+            <g stroke="#5c82a6" stroke-width="2" stroke-dasharray="5 5"><path d="M150 44V335"/><path d="M610 44V335"/></g>
+            <g stroke="#1ef58c" stroke-width="2.5" fill="none"><path d="M608 85H152" marker-end="url(#tfheartbeat_a)"/><path d="M608 125H152" marker-end="url(#tfheartbeat_a)"/><path d="M608 165H152" marker-end="url(#tfheartbeat_a)"/></g>
+            <g font-size="13" fill="#1ef58c" text-anchor="middle">
+              <text x="380" y="78" data-i18n="ft_svg2_alive">«estoy vivo»</text>
+              <text x="380" y="118" data-i18n="ft_svg2_alive">«estoy vivo»</text>
+              <text x="380" y="158" data-i18n="ft_svg2_alive">«estoy vivo»</text>
+            </g>
+            <g stroke="#ff5c7c" stroke-width="4"><path d="M596 185l28 28M624 185l-28 28"/></g>
+            <text x="634" y="204" font-size="13" font-weight="700" fill="#ff7a95" data-i18n="ft_svg2_bfail">Falla B</text>
+            <path d="M500 250H152" stroke="#67f3ff" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#tfheartbeat_g)"/>
+            <text x="330" y="243" font-size="13" fill="#9bc2df" text-anchor="middle" data-i18n="ft_svg2_miss">mensaje esperado: no llega</text>
+            <path d="M130 170V262" stroke="#ff5c7c" stroke-width="3" fill="none"/>
+            <text x="122" y="206" font-size="12" fill="#ff7a95" text-anchor="end" data-i18n="ft_svg2_to1">Tiempo</text>
+            <text x="122" y="222" font-size="12" fill="#ff7a95" text-anchor="end" data-i18n="ft_svg2_to2">de espera</text>
+            <path d="M152 292H606" stroke="#67f3ff" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#tfheartbeat_g)"/>
+            <text x="380" y="285" font-size="13" fill="#9bc2df" text-anchor="middle" data-i18n="ft_svg2_q">«¿estás vivo?» (sin respuesta)</text>
+            <rect x="150" y="305" width="480" height="30" rx="15" fill="#2c1220" stroke="#ff5c7c"/>
+            <text x="390" y="325" font-size="13" font-weight="700" fill="#ff8fa5" text-anchor="middle" data-i18n="ft_svg2_susp">A sospecha de un fallo del sitio B o del enlace</text>
+          </svg>
+          <figcaption data-i18n="ft_fig2_cap">Figura 2. Detección con mensajes periódicos y tiempo de espera.</figcaption>
+        </figure>
+
+        <h2 data-i18n="ft_step_h2">Un ejemplo paso a paso</h2>
+        <details open><summary data-i18n="ft_e1_t">Tres sitios con un coordinador</summary><p data-i18n="ft_e1_d">Los sitios A, B y C se reparten el trabajo y B actúa como coordinador. Todos intercambian mensajes «estoy vivo» cada pocos segundos.</p></details>
+        <details><summary data-i18n="ft_e2_t">B deja de responder</summary><p data-i18n="ft_e2_d">A no recibe el mensaje de B antes del tiempo de espera, lo consulta y no obtiene respuesta ni por una ruta alterna. Sospecha que B falló.</p></details>
+        <details><summary data-i18n="ft_e3_t">El sistema se reconfigura</summary><p data-i18n="ft_e3_d">A y C se avisan del fallo, dejan de enviar trabajo a B y eligen un nuevo coordinador. El servicio continúa, quizá más lento: eso es degradación elegante.</p></details>
+        <details><summary data-i18n="ft_e4_t">B vuelve</summary><p data-i18n="ft_e4_d">Al reiniciar, B avisa a los demás, se pone al día y se reintegra al sistema.</p></details>
+
+        <h2 data-i18n="ft_reinf_h2">Cómo se refuerza la tolerancia</h2>
+        <ul>
+          <li data-i18n-html="ft_r1"><strong>Redundancia:</strong> tener varios sitios o enlaces capaces de hacer el mismo trabajo.</li>
+          <li data-i18n-html="ft_r2"><strong>Replicación:</strong> guardar copias de los datos en sitios distintos.</li>
+          <li data-i18n-html="ft_r3"><strong>Degradación elegante:</strong> seguir dando servicio con menor capacidad.</li>
+        </ul>
+        <p class="cita" data-i18n="ft_cite2">Fuente: Silberschatz et al. (2006), capítulo de estructuras de sistemas distribuidos, apartado «Robustez».</p>
+
+        <h2 data-i18n="ft_sum_h2">Resumen por tipo de fallo</h2>
+        <h3 data-i18n="ft_sum_h3">¿Qué hace el sistema ante cada fallo?</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th data-i18n="ft_t1_c1">Fallo</th><th data-i18n="ft_t1_c2">Cómo se nota</th><th data-i18n="ft_t1_c3">Respuesta del sistema</th></tr></thead>
+            <tbody>
+              <tr><th data-i18n="ft_t1_r1c1">Enlace caído</th><td data-i18n="ft_t1_r1c2">No llegan mensajes, pero el sitio sigue vivo por otra ruta</td><td data-i18n="ft_t1_r1c3">Usar una ruta alterna y actualizar las tablas de rutas</td></tr>
+              <tr><th data-i18n="ft_t1_r2c1">Sitio caído</th><td data-i18n="ft_t1_r2c2">No responde por ninguna ruta</td><td data-i18n="ft_t1_r2c3">Avisar a los demás, dejar de usarlo y reasignar su trabajo</td></tr>
+              <tr><th data-i18n="ft_t1_r3c1">Coordinador caído</th><td data-i18n="ft_t1_r3c2">Nadie dirige una función compartida</td><td data-i18n="ft_t1_r3c3">Elegir un nuevo coordinador</td></tr>
+              <tr><th data-i18n="ft_t1_r4c1">Pérdida de mensajes</th><td data-i18n="ft_t1_r4c2">Falta una respuesta esperada</td><td data-i18n="ft_t1_r4c3">Esperar, reenviar y, si persiste, tratarlo como fallo</td></tr>
+              <tr><th data-i18n="ft_t1_r5c1">Partición de la red</th><td data-i18n="ft_t1_r5c2">Grupos de sitios aislados</td><td data-i18n="ft_t1_r5c3">Cada grupo opera con lo que tiene hasta reunirse de nuevo</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 data-i18n="glossary_h2">Glosario</h2>
+        <div class="tablewrap">
+          <table>
+            <tbody>
+              <tr><th data-i18n="ft_g1_t">Sitio</th><td data-i18n="ft_g1_d">Cada computadora o nodo de un sistema distribuido.</td></tr>
+              <tr><th data-i18n="ft_g2_t">Enlace</th><td data-i18n="ft_g2_d">Conexión de comunicación entre dos sitios.</td></tr>
+              <tr><th data-i18n="ft_g3_t">Tiempo de espera</th><td data-i18n="ft_g3_d">Plazo máximo para recibir un mensaje antes de sospechar un fallo.</td></tr>
+              <tr><th data-i18n="ft_g4_t">Coordinador</th><td data-i18n="ft_g4_d">Sitio que dirige una función compartida por varios.</td></tr>
+              <tr><th data-i18n="ft_g5_t">Redundancia</th><td data-i18n="ft_g5_d">Componentes extra capaces de asumir el trabajo de uno que falla.</td></tr>
+              <tr><th data-i18n="ft_g6_t">Degradación elegante</th><td data-i18n="ft_g6_d">Seguir funcionando con prestaciones reducidas.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="obj">
+          <h3 style="margin-top:0" data-i18n="key_ideas_h3">Ideas clave</h3>
+          <ul>
+            <li data-i18n="ft_k1">La robustez ante fallos tiene tres tareas: detectar, reconfigurar y recuperar.</li>
+            <li data-i18n="ft_k2">Los mensajes «estoy vivo» y el tiempo de espera detectan fallos.</li>
+            <li data-i18n="ft_k3">No siempre se distingue un fallo de sitio de uno de enlace.</li>
+            <li data-i18n="ft_k4">Tolerar fallos puede significar funcionar con menos capacidad.</li>
+          </ul>
+        </div>
+
+        <div class="nextprev">
+          <a class="btn-ghost" href="tiempo-real.html" data-i18n="btn_back_rt">← Sistemas en tiempo real</a>
+          <a class="btn-neon" href="index.html" data-i18n="btn_finish_home">Finalizar y volver al panel ✓</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-details">
+            <div class="footer-academic-list">
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_faculty">Facultad de Ingeniería</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_program">Ingeniería de Sistemas</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_course"><strong>Asignatura:</strong> Sistemas Operativos</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_teacher"><strong>Docente:</strong> Alvaro Salamanca Lándinez</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_author"><strong>Desarrollado por:</strong> Andrea Rodríguez</span></div>
+            </div>
+            <div class="footer-ref" data-i18n-html="ft_ref">
+              <strong>Referencia bibliográfica (APA 7.ª):</strong> Silberschatz, A., Galvin, P. B., &amp; Gagne, G. (2006). <em>Fundamentos de sistemas operativos</em> (7.ª ed.). McGraw-Hill.
+            </div>
+          </div>
+          <div class="footer-brand">
+            <div class="footer-logo-ring">
+              <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="footer-so-logo">
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal / Toast de Bloqueo del Kernel -->
+  <div class="gate-modal" id="gate-modal" hidden role="dialog" aria-modal="true" aria-labelledby="gate-modal-title">
+    <div class="gate-modal-card">
+      <div class="gate-modal-badge" data-i18n="modal_badge">🔒 Acceso restringido por el kernel</div>
+      <h3 id="gate-modal-title" data-i18n="modal_title">Completa primero el test obligatorio</h3>
+      <p data-i18n-html="modal_body">Para ingresar a <strong id="gate-target-name">este módulo</strong>, primero debes aprobar el <strong>Test obligatorio (Paso 1)</strong> sobre Memoria virtual, Entrada/Salida y Seguridad (mínimo 6 de 9 respuestas correctas).</p>
+      <div class="gate-modal-actions">
+        <a href="evaluacion.html" class="btn-neon" data-i18n="modal_cta">Iniciar test obligatorio →</a>
+        <button type="button" class="btn-ghost" id="close-gate-modal" data-i18n="modal_close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

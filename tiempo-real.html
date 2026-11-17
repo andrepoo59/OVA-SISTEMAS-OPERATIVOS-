@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistemas en tiempo real | OVA Sistemas Operativos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="tiempo-real" data-title-key="page_title_rt" data-gate>
+  <div id="progreso" aria-hidden="true"></div>
+
+  <!-- Fondo tecnológico tipo placa base / circuitos -->
+  <div class="circuit-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="traceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#1ef58c" stop-opacity="0.12"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#traceGrad)" stroke-width="1.5" fill="none">
+        <path d="M0 120 H180 L230 170 H420"/>
+        <path d="M0 760 H160 L220 700 H380 L430 750 H680"/>
+        <path d="M1440 180 H1240 L1180 240 H980"/>
+        <path d="M1440 810 H1190 L1120 740 H890"/>
+        <path d="M60 880 L190 750 L310 870"/>
+      </g>
+      <g fill="#00e5ff" fill-opacity="0.28">
+        <circle cx="420" cy="170" r="4"/>
+        <circle cx="980" cy="240" r="4"/>
+        <circle cx="680" cy="750" r="4"/>
+        <circle cx="890" cy="740" r="4"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Encabezado Superior -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand" aria-label="OVA Sistemas Operativos">
+        <div class="logo-ring">
+          <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="brand-logo">
+        </div>
+        <div class="brand-text">
+          <span class="brand-title" data-i18n-html="brand_title">OVA <span class="brand-dot">•</span> Sistemas Operativos</span>
+          <span class="brand-sub" data-i18n="brand_sub">Kernel educativo · Universidad Simón Bolívar</span>
+        </div>
+      </a>
+
+      <div class="topbar-controls">
+        <!-- Selector de Idioma Español / Inglés -->
+        <div class="lang-switch" role="group" aria-label="Selector de idioma / Language selector">
+          <span class="lang-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </span>
+          <button type="button" class="lang-btn" data-lang="es" aria-pressed="true" title="Español">ES</button>
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English">EN</button>
+        </div>
+
+        <div class="progress-widget" aria-label="Progreso del curso">
+          <div class="progress-info">
+            <div class="progress-label-row">
+              <span class="progress-label"><span data-i18n="progress_label">Progreso del curso:</span> <strong id="course-pct">0%</strong></span>
+              <span class="progress-status" id="course-state-label">Requisito pendiente</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="course-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="user-chip" data-i18n-title="session_chip_title" title="Estado de sesión del estudiante">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="3"/>
+              <path d="M9 9h6v6H9z"/>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal con Barra Lateral Prioritaria -->
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal del OVA">
+      <div class="sidebar-section-label" data-i18n="nav_section">Ruta de aprendizaje</div>
+      <nav class="side-nav">
+        <!-- Paso 1: Test obligatorio siempre primero -->
+        <a href="evaluacion.html" class="nav-item nav-test" id="nav-test">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_test">Test obligatorio</span>
+          <span class="step-badge" id="test-badge">Paso 1</span>
+        </a>
+
+        <a href="index.html" class="nav-item nav-lockable" data-requires-test="true" data-target="index.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_home">Inicio</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="embebidos.html" class="nav-item nav-lockable" data-requires-test="true" data-target="embebidos.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="6" width="12" height="12" rx="2"/>
+              <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_emb">Sistemas embebidos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tiempo-real.html" class="nav-item nav-lockable active" data-requires-test="true" data-target="tiempo-real.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 3"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_rt">Sistemas en tiempo real</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tolerancia.html" class="nav-item nav-lockable" data-requires-test="true" data-target="tolerancia.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_ft">Tolerancia a fallos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+      </nav>
+
+      <div class="kernel-box">
+        <div class="kernel-box-head">
+          <span class="status-led" id="kernel-led"></span>
+          <span>Kernel_Gate</span>
+        </div>
+        <pre class="kernel-log" id="kernel-sidebar-log">$ kernel_init
+gate_mode: strict
+modules: locked
+req: test_paso_1</pre>
+        <button type="button" class="btn-reset-progress" id="btn-reset-progress" data-i18n="btn_reset" title="Reiniciar estado del test y progreso">
+          ↺ Reiniciar demo
+        </button>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <main class="content-main">
+        <div class="page-header-card">
+          <div class="hero-pill" data-i18n="rt_pill">Módulo 02 • Planificación y plazos estrictos</div>
+          <h1 data-i18n="rt_h1">Sistemas de tiempo real</h1>
+          <div class="obj" data-i18n-html="rt_obj"><strong>Objetivo:</strong> distinguir tiempo real estricto y flexible, y comprender cómo se planifica la CPU para cumplir plazos.</div>
+        </div>
+
+        <p data-i18n="rt_p1">En un sistema de tiempo real no basta con que el resultado sea correcto: también debe llegar a tiempo. Se emplean como dispositivo de control en aplicaciones dedicadas, donde unos sensores entregan datos al computador y este debe analizarlos y ajustar los controles dentro de un límite de tiempo estricto.</p>
+
+        <h3 data-i18n="rt_where_h3">¿Dónde los encontramos?</h3>
+        <ul>
+          <li data-i18n="rt_w1">Control de procesos industriales y robots.</li>
+          <li data-i18n="rt_w2">Experimentos científicos y sistemas de imágenes médicas.</li>
+          <li data-i18n="rt_w3">Sistemas de inyección de combustible y frenos de automóviles.</li>
+          <li data-i18n="rt_w4">Aviónica, multimedia y realidad virtual.</li>
+        </ul>
+
+        <h2 data-i18n="rt_types_h2">Dos tipos de sistemas</h2>
+        <div class="tabs" role="tablist">
+          <button role="tab" aria-selected="true" data-p="hard" data-i18n="rt_tab_hard">Estricto (hard)</button>
+          <button role="tab" aria-selected="false" data-p="soft" data-i18n="rt_tab_soft">Flexible (soft)</button>
+        </div>
+        <div class="panel" id="hard"><p data-i18n="rt_panel_hard">Garantiza que las tareas críticas se completen dentro de su plazo. Un resultado tardío se considera tan inútil como no tenerlo. Suele ejecutarse en dispositivos con poco almacenamiento secundario y con el software en memoria de solo lectura (ROM), y por eso rara vez convive con las funciones de un sistema de tiempo compartido.</p></div>
+        <div class="panel" id="soft" hidden><p data-i18n="rt_panel_soft">Da prioridad a un proceso crítico sobre los demás, pero no ofrece garantía absoluta. Sirve en multimedia y realidad virtual, donde un retraso degrada la calidad sin causar un fallo grave. Puede mezclarse con otros tipos de sistemas, aunque no es apropiado para el control industrial o la robótica, que exigen plazos estrictos.</p></div>
+
+        <figure class="tech-figure">
+          <svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="Inter, Segoe UI, sans-serif" role="img" aria-labelledby="trtipos_t trtipos_d">
+            <title id="trtipos_t" data-i18n="rt_svg1_t">Valor del resultado según el momento de entrega</title>
+            <desc id="trtipos_d" data-i18n="rt_svg1_d">A la izquierda, en tiempo real estricto el valor del resultado cae a cero al pasar el plazo. A la derecha, en tiempo real flexible el valor decrece poco a poco.</desc>
+            <rect width="760" height="300" rx="12" fill="#071324"/>
+            <g font-size="16" font-weight="700" fill="#67f3ff">
+              <text x="40" y="28" data-i18n="rt_svg1_hard">Tiempo real estricto (hard)</text>
+              <text x="410" y="28" data-i18n="rt_svg1_soft">Tiempo real flexible (soft)</text>
+            </g>
+            <g stroke="#5c82a6" stroke-width="2" fill="none"><path d="M50 60V230H350"/><path d="M420 60V230H720"/></g>
+            <g font-size="13" fill="#9bc2df">
+              <text x="46" y="56" text-anchor="end" data-i18n="rt_svg1_val">Valor</text>
+              <text x="350" y="250" text-anchor="end" data-i18n="rt_svg1_time">Tiempo →</text>
+              <text x="416" y="56" text-anchor="end" data-i18n="rt_svg1_val">Valor</text>
+              <text x="720" y="250" text-anchor="end" data-i18n="rt_svg1_time">Tiempo →</text>
+            </g>
+            <g stroke="#ff5c7c" stroke-width="2" stroke-dasharray="6 5"><path d="M220 60V230"/><path d="M590 60V230"/></g>
+            <g font-size="13" font-weight="700" fill="#ff7a95" text-anchor="middle">
+              <text x="220" y="262" data-i18n="rt_svg1_dl">Plazo</text>
+              <text x="590" y="262" data-i18n="rt_svg1_dl">Plazo</text>
+            </g>
+            <path d="M50 90H220V230H340" fill="none" stroke="#1ef58c" stroke-width="4"/>
+            <path d="M420 90H590L710 215" fill="none" stroke="#1ef58c" stroke-width="4"/>
+            <g font-size="13" fill="#e6fbff">
+              <text x="60" y="80" data-i18n="rt_svg1_full">Valor completo</text>
+              <text x="232" y="150" data-i18n="rt_svg1_late">Resultado tardío:</text>
+              <text x="232" y="168" fill="#ff7a95" data-i18n="rt_svg1_zero">valor nulo</text>
+              <text x="430" y="80" data-i18n="rt_svg1_full">Valor completo</text>
+              <text x="560" y="130" text-anchor="end" data-i18n="rt_svg1_deg1">Se degrada</text>
+              <text x="560" y="147" text-anchor="end" data-i18n="rt_svg1_deg2">la calidad</text>
+            </g>
+            <text x="40" y="288" font-size="13" fill="#9bc2df" data-i18n="rt_svg1_ex1">Ej.: frenos ABS, control de un reactor</text>
+            <text x="410" y="288" font-size="13" fill="#9bc2df" data-i18n="rt_svg1_ex2">Ej.: vídeo en streaming, realidad virtual</text>
+          </svg>
+          <figcaption data-i18n="rt_fig1_cap">Figura 1. Valor del resultado según el momento de entrega: caída brusca (estricto) frente a degradación gradual (flexible).</figcaption>
+        </figure>
+
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th data-i18n="rt_t1_c1">Criterio</th><th data-i18n="rt_t1_c2">Estricto (hard)</th><th data-i18n="rt_t1_c3">Flexible (soft)</th></tr></thead>
+            <tbody>
+              <tr><th data-i18n="rt_t1_r1c1">Plazo incumplido</th><td data-i18n="rt_t1_r1c2">Fallo del sistema</td><td data-i18n="rt_t1_r1c3">Menor calidad del servicio</td></tr>
+              <tr><th data-i18n="rt_t1_r2c1">Garantía</th><td data-i18n="rt_t1_r2c2">Absoluta</td><td data-i18n="rt_t1_r2c3">Solo prioridad al proceso crítico</td></tr>
+              <tr><th data-i18n="rt_t1_r3c1">Ejemplos</th><td data-i18n="rt_t1_r3c2">Frenos ABS, control industrial</td><td data-i18n="rt_t1_r3c3">Vídeo, juegos, realidad virtual</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="cita" data-i18n="rt_cite1">Fuente: Silberschatz et al. (2006), capítulo «Sistemas de tiempo real», apartado de características.</p>
+
+        <h2 data-i18n="rt_os_h2">¿Qué necesita su sistema operativo?</h2>
+        <details open><summary data-i18n="rt_o1_t">Núcleo expulsivo con prioridades</summary><p data-i18n="rt_o1_d">Un proceso crítico debe poder quitarle la CPU a otro de menor prioridad en cuanto lo necesite. Por eso estos sistemas usan planificación basada en prioridades con expulsión.</p></details>
+        <details><summary data-i18n="rt_o2_t">Latencia de interrupción</summary><p data-i18n="rt_o2_d">Es el tiempo que pasa desde que llega una interrupción hasta que empieza a ejecutarse la rutina que la atiende. Debe estar acotada y ser lo más corta posible.</p></details>
+        <details><summary data-i18n="rt_o3_t">Latencia de despacho</summary><p data-i18n="rt_o3_d">Es el tiempo que necesita el despachador para detener un proceso e iniciar otro. Para reducirla, el núcleo debe ser expulsivo y liberar rápido los recursos que retiene un proceso de baja prioridad.</p></details>
+        <details><summary data-i18n="rt_o4_t">Inversión de prioridad</summary><p data-i18n="rt_o4_d">Ocurre cuando un proceso de alta prioridad espera un recurso que tiene uno de baja prioridad. Se resuelve con el protocolo de herencia de prioridades: el proceso de baja prioridad hereda temporalmente la prioridad alta hasta liberar el recurso.</p></details>
+        <details><summary data-i18n="rt_o5_t">Gestión de memoria</summary><p data-i18n="rt_o5_d">Los fallos de página hacen impredecible el tiempo de acceso, por lo que muchos sistemas de tiempo real evitan la memoria virtual o bloquean en memoria las páginas críticas.</p></details>
+        <p class="cita" data-i18n="rt_cite2">Fuente: Silberschatz et al. (2006), capítulo «Sistemas de tiempo real», apartado de implementación.</p>
+
+        <h2 data-i18n="rt_cpu_h2">Planificación de la CPU</h2>
+        <p data-i18n-html="rt_cpu_p">Un proceso periódico requiere la CPU cada período <em>p</em>, durante un tiempo de procesamiento <em>t</em>, y debe terminar antes de su plazo <em>d</em>. Su utilización de CPU es <em>t/p</em>, y la del sistema es la suma de las utilizaciones de todos los procesos.</p>
+        <details><summary data-i18n="rt_s1_t">Tasa monótona (rate-monotonic)</summary><p data-i18n-html="rt_s1_d">Asigna prioridades estáticas en proporción inversa al período: a menor período, mayor prioridad. Con N procesos garantiza los plazos si la utilización de CPU no supera N(2<sup>1/N</sup> − 1). Con dos procesos el límite es cerca del 83 %, y cae hacia el 69 % cuando N crece.</p></details>
+        <details><summary data-i18n="rt_s2_t">Primero el plazo más próximo (EDF)</summary><p data-i18n="rt_s2_d">Asigna prioridades de forma dinámica: cuanto más cercano el plazo, mayor la prioridad. En teoría puede cumplir todos los plazos mientras la utilización no pase del 100 %.</p></details>
+        <details><summary data-i18n="rt_s3_t">Reparto proporcional</summary><p data-i18n="rt_s3_d">Reparte T participaciones entre las aplicaciones; una aplicación con N participaciones recibe N/T del tiempo de procesador.</p></details>
+
+        <h3 data-i18n="rt_ex_h3">Ejemplo comparativo</h3>
+        <p data-i18n="rt_ex_p">Sean P1 con período 50 y tiempo 25, y P2 con período 80 y tiempo 35. La utilización total es 25/50 + 35/80 ≈ 94 %, superior al límite de tasa monótona para dos procesos (≈ 83 %). Con tasa monótona, P1 tiene mayor prioridad y expulsa a P2 en t = 50, de modo que P2 solo alcanza 30 de sus 35 unidades en t = 80 y pierde el plazo. Con EDF, en t = 50 el plazo de P2 (80) es más próximo que el nuevo de P1 (100), así que P2 termina en t = 60 y se cumplen todos los plazos.</p>
+
+        <figure class="tech-figure">
+          <svg style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" font-family="Inter, Segoe UI, sans-serif" role="img" aria-labelledby="trplanificacion_t trplanificacion_d">
+            <title id="trplanificacion_t" data-i18n="rt_svg2_t">Planificación con tasa monótona frente a EDF</title>
+            <desc id="trplanificacion_d" data-i18n="rt_svg2_d">Diagrama de Gantt con dos procesos: P1 con período 50 y tiempo 25, P2 con período 80 y tiempo 35. Con tasa monótona P2 pierde su plazo en t=80; con EDF se cumplen todos los plazos.</desc>
+            <rect width="760" height="330" rx="12" fill="#071324"/>
+            <text x="20" y="26" font-size="15" font-weight="700" fill="#ff7a95" data-i18n="rt_svg2_rm">Tasa monótona: P2 pierde su plazo en t = 80</text>
+            <g stroke="#071324" stroke-width="2" font-size="14" font-weight="700" text-anchor="middle">
+              <rect x="100" y="44" width="150" height="36" rx="4" fill="#1ef58c"/><text x="175" y="67" fill="#041222" stroke="none">P1</text>
+              <rect x="250" y="44" width="150" height="36" rx="4" fill="#00e5ff"/><text x="325" y="67" fill="#041222" stroke="none">P2</text>
+              <rect x="400" y="44" width="150" height="36" rx="4" fill="#1ef58c"/><text x="475" y="67" fill="#041222" stroke="none">P1</text>
+              <rect x="550" y="44" width="30" height="36" rx="4" fill="#00e5ff"/>
+            </g>
+            <path d="M580 36V92" stroke="#ff5c7c" stroke-width="3"/><text x="592" y="66" font-size="13" font-weight="700" fill="#ff7a95" data-i18n="rt_svg2_miss">✗ P2 lleva 30 de 35</text>
+            <g stroke="#5c82a6" stroke-width="1.5"><path d="M100 90H700"/></g>
+            <g font-size="12" fill="#9bc2df" text-anchor="middle"><text x="100" y="108">0</text><text x="250" y="108">25</text><text x="400" y="108">50</text><text x="550" y="108">75</text><text x="580" y="124" fill="#ff7a95" font-weight="700">80</text><text x="700" y="108">100</text></g>
+
+            <text x="20" y="168" font-size="15" font-weight="700" fill="#1ef58c" data-i18n="rt_svg2_edf">EDF: todos los plazos se cumplen</text>
+            <g stroke="#071324" stroke-width="2" font-size="14" font-weight="700" text-anchor="middle">
+              <rect x="100" y="188" width="150" height="36" rx="4" fill="#1ef58c"/><text x="175" y="211" fill="#041222" stroke="none">P1</text>
+              <rect x="250" y="188" width="210" height="36" rx="4" fill="#00e5ff"/><text x="355" y="211" fill="#041222" stroke="none">P2</text>
+              <rect x="460" y="188" width="150" height="36" rx="4" fill="#1ef58c"/><text x="535" y="211" fill="#041222" stroke="none">P1</text>
+              <rect x="610" y="188" width="90" height="36" rx="4" fill="#00e5ff"/><text x="655" y="211" fill="#041222" stroke="none">P2</text>
+            </g>
+            <g stroke="#5c82a6" stroke-width="1.5"><path d="M100 234H700"/></g>
+            <g font-size="12" fill="#9bc2df" text-anchor="middle"><text x="100" y="252">0</text><text x="250" y="252">25</text><text x="400" y="252">50</text><text x="460" y="252">60</text><text x="580" y="252">80</text><text x="610" y="252">85</text><text x="700" y="252">100</text></g>
+            <g stroke="#67f3ff" stroke-width="2" stroke-dasharray="5 4"><path d="M400 180V236"/><path d="M580 180V236"/><path d="M700 180V236"/></g>
+            <text x="400" y="176" font-size="12" fill="#67f3ff" text-anchor="middle" data-i18n="rt_svg2_dp1">plazo P1</text>
+            <text x="580" y="176" font-size="12" fill="#67f3ff" text-anchor="middle" data-i18n="rt_svg2_dp2">plazo P2</text>
+            <text x="700" y="176" font-size="12" fill="#67f3ff" text-anchor="middle" data-i18n="rt_svg2_dp1">plazo P1</text>
+            <g font-size="13" fill="#d8eef8">
+              <rect x="20" y="288" width="16" height="16" rx="3" fill="#1ef58c"/><text x="42" y="301" data-i18n="rt_svg2_l1">P1: período 50, tiempo 25</text>
+              <rect x="260" y="288" width="16" height="16" rx="3" fill="#00e5ff"/><text x="282" y="301" data-i18n="rt_svg2_l2">P2: período 80, tiempo 35</text>
+              <text x="520" y="301" fill="#9bc2df" data-i18n="rt_svg2_l3">Unidades de tiempo arbitrarias</text>
+            </g>
+          </svg>
+          <figcaption data-i18n="rt_fig2_cap">Figura 2. Mismos procesos planificados con tasa monótona y con EDF.</figcaption>
+        </figure>
+        <p class="cita" data-i18n="rt_cite3">Fuente: Silberschatz et al. (2006), capítulo «Sistemas de tiempo real», apartado de planificación de la CPU en tiempo real.</p>
+
+        <!-- Laboratorio Interactivo de Utilización de CPU (RM vs EDF) -->
+        <section class="lab" aria-label="Laboratorio de planificación en tiempo real">
+          <div class="hero-pill" style="margin-bottom:0.5rem" data-i18n="lab_pill">Laboratorio interactivo de CPU</div>
+          <h3 data-i18n="lab_h3">Calculadora de planificabilidad (RM vs. EDF)</h3>
+          <p style="font-size:0.95rem;margin-top:0" data-i18n-html="lab_desc">Modifica los períodos (<em>p</em>) y tiempos de ejecución (<em>t</em>) de dos procesos periódicos para comprobar si cumplen el límite de Liu &amp; Layland para Tasa monótona (82.8 %) o si requieren EDF.</p>
+          <div class="lab-grid">
+            <div>
+              <label><span data-i18n-html="lab_t1">Proceso P1 · Tiempo (t₁):</span> <input type="number" id="rt-t1" value="25" min="1" max="200"></label>
+              <label><span data-i18n-html="lab_p1">Proceso P1 · Período (p₁):</span> <input type="number" id="rt-p1" value="50" min="2" max="500"></label>
+            </div>
+            <div>
+              <label><span data-i18n-html="lab_t2">Proceso P2 · Tiempo (t₂):</span> <input type="number" id="rt-t2" value="35" min="1" max="200"></label>
+              <label><span data-i18n-html="lab_p2">Proceso P2 · Período (p₂):</span> <input type="number" id="rt-p2" value="80" min="2" max="500"></label>
+            </div>
+          </div>
+          <div class="bar" title="Barra de utilización de CPU"><i id="rt-cpu-bar" style="width:93.75%"></i><b style="left:82.84%" title="Límite Tasa Monótona (82.84%)"></b></div>
+          <div class="res" id="rt-lab-res">Utilización total: 93.8% (Límite RM: 82.8% · Límite EDF: 100%). Supera RM: requiere planificación dinámica EDF.</div>
+        </section>
+
+        <h2 data-i18n="glossary_h2">Glosario</h2>
+        <div class="tablewrap">
+          <table>
+            <tbody>
+              <tr><th data-i18n-html="rt_g1_t">Plazo (<em>d</em>)</th><td data-i18n="rt_g1_d">Instante límite en que debe terminar una tarea.</td></tr>
+              <tr><th data-i18n-html="rt_g2_t">Período (<em>p</em>)</th><td data-i18n="rt_g2_d">Cada cuánto tiempo se repite una tarea periódica.</td></tr>
+              <tr><th data-i18n-html="rt_g3_t">Tiempo de procesamiento (<em>t</em>)</th><td data-i18n="rt_g3_d">CPU que necesita la tarea en cada ejecución.</td></tr>
+              <tr><th data-i18n="rt_g4_t">Utilización</th><td data-i18n="rt_g4_d">Fracción de CPU que usa un proceso (t/p) o todos (suma).</td></tr>
+              <tr><th data-i18n="rt_g5_t">Expulsión</th><td data-i18n="rt_g5_d">Quitarle la CPU a un proceso para dársela a otro más urgente.</td></tr>
+              <tr><th data-i18n="rt_g6_t">Despachador</th><td data-i18n="rt_g6_d">Componente que entrega la CPU al proceso elegido.</td></tr>
+              <tr><th data-i18n="rt_g7_t">Latencia</th><td data-i18n="rt_g7_d">Tiempo entre un evento y el inicio de su atención.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="obj">
+          <h3 style="margin-top:0" data-i18n="key_ideas_h3">Ideas clave</h3>
+          <ul>
+            <li data-i18n="rt_k1">En tiempo real, un resultado correcto pero tardío puede ser inútil.</li>
+            <li data-i18n="rt_k2">El estricto garantiza plazos; el flexible solo da prioridad.</li>
+            <li data-i18n="rt_k3">Tasa monótona usa prioridades estáticas; EDF, dinámicas.</li>
+            <li data-i18n="rt_k4">Las latencias de interrupción y de despacho deben mantenerse acotadas.</li>
+          </ul>
+        </div>
+
+        <div class="nextprev">
+          <a class="btn-ghost" href="embebidos.html" data-i18n="btn_back_emb">← Sistemas embebidos</a>
+          <a class="btn-neon" href="tolerancia.html" data-i18n="btn_to_ft">Tolerancia a fallos →</a>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-details">
+            <div class="footer-academic-list">
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_faculty">Facultad de Ingeniería</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_program">Ingeniería de Sistemas</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_course"><strong>Asignatura:</strong> Sistemas Operativos</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_teacher"><strong>Docente:</strong> Alvaro Salamanca Lándinez</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_author"><strong>Desarrollado por:</strong> Andrea Rodríguez</span></div>
+            </div>
+            <div class="footer-ref" data-i18n-html="ft_ref">
+              <strong>Referencia bibliográfica (APA 7.ª):</strong> Silberschatz, A., Galvin, P. B., &amp; Gagne, G. (2006). <em>Fundamentos de sistemas operativos</em> (7.ª ed.). McGraw-Hill.
+            </div>
+          </div>
+          <div class="footer-brand">
+            <div class="footer-logo-ring">
+              <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="footer-so-logo">
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal / Toast de Bloqueo del Kernel -->
+  <div class="gate-modal" id="gate-modal" hidden role="dialog" aria-modal="true" aria-labelledby="gate-modal-title">
+    <div class="gate-modal-card">
+      <div class="gate-modal-badge" data-i18n="modal_badge">🔒 Acceso restringido por el kernel</div>
+      <h3 id="gate-modal-title" data-i18n="modal_title">Completa primero el test obligatorio</h3>
+      <p data-i18n-html="modal_body">Para ingresar a <strong id="gate-target-name">este módulo</strong>, primero debes aprobar el <strong>Test obligatorio (Paso 1)</strong> sobre Memoria virtual, Entrada/Salida y Seguridad (mínimo 6 de 9 respuestas correctas).</p>
+      <div class="gate-modal-actions">
+        <a href="evaluacion.html" class="btn-neon" data-i18n="modal_cta">Iniciar test obligatorio →</a>
+        <button type="button" class="btn-ghost" id="close-gate-modal" data-i18n="modal_close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

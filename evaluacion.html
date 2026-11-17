@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test obligatorio (Paso 1) | OVA Sistemas Operativos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="evaluacion" data-title-key="page_title_eval">
+  <div id="progreso" aria-hidden="true"></div>
+
+  <!-- Fondo tecnológico tipo placa base / circuitos -->
+  <div class="circuit-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="traceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#1ef58c" stop-opacity="0.12"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#traceGrad)" stroke-width="1.5" fill="none">
+        <path d="M0 120 H180 L230 170 H420"/>
+        <path d="M0 760 H160 L220 700 H380 L430 750 H680"/>
+        <path d="M1440 180 H1240 L1180 240 H980"/>
+        <path d="M1440 810 H1190 L1120 740 H890"/>
+        <path d="M60 880 L190 750 L310 870"/>
+      </g>
+      <g fill="#00e5ff" fill-opacity="0.28">
+        <circle cx="420" cy="170" r="4"/>
+        <circle cx="980" cy="240" r="4"/>
+        <circle cx="680" cy="750" r="4"/>
+        <circle cx="890" cy="740" r="4"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Encabezado Superior -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="brand" aria-label="OVA Sistemas Operativos">
+        <div class="logo-ring">
+          <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="brand-logo">
+        </div>
+        <div class="brand-text">
+          <span class="brand-title" data-i18n-html="brand_title">OVA <span class="brand-dot">•</span> Sistemas Operativos</span>
+          <span class="brand-sub" data-i18n="brand_sub">Kernel educativo · Universidad Simón Bolívar</span>
+        </div>
+      </a>
+
+      <div class="topbar-controls">
+        <!-- Selector de Idioma Español / Inglés -->
+        <div class="lang-switch" role="group" aria-label="Selector de idioma / Language selector">
+          <span class="lang-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </span>
+          <button type="button" class="lang-btn" data-lang="es" aria-pressed="true" title="Español">ES</button>
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English">EN</button>
+        </div>
+
+        <div class="progress-widget" aria-label="Progreso del curso">
+          <div class="progress-info">
+            <div class="progress-label-row">
+              <span class="progress-label"><span data-i18n="progress_label">Progreso del curso:</span> <strong id="course-pct">0%</strong></span>
+              <span class="progress-status" id="course-state-label">Requisito pendiente</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="course-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="user-chip" data-i18n-title="session_chip_title" title="Estado de sesión del estudiante">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="3"/>
+              <path d="M9 9h6v6H9z"/>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal con Barra Lateral Prioritaria -->
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal del OVA">
+      <div class="sidebar-section-label" data-i18n="nav_section">Ruta de aprendizaje</div>
+      <nav class="side-nav">
+        <!-- Paso 1: Test obligatorio siempre primero -->
+        <a href="evaluacion.html" class="nav-item nav-test active" id="nav-test">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_test">Test obligatorio</span>
+          <span class="step-badge" id="test-badge">Paso 1</span>
+        </a>
+
+        <a href="index.html" class="nav-item nav-lockable" data-requires-test="true" data-target="index.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_home">Inicio</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="embebidos.html" class="nav-item nav-lockable" data-requires-test="true" data-target="embebidos.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="6" width="12" height="12" rx="2"/>
+              <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_emb">Sistemas embebidos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tiempo-real.html" class="nav-item nav-lockable" data-requires-test="true" data-target="tiempo-real.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 3"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_rt">Sistemas en tiempo real</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+
+        <a href="tolerancia.html" class="nav-item nav-lockable" data-requires-test="true" data-target="tolerancia.html">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav_ft">Tolerancia a fallos</span>
+          <span class="lock-icon" aria-hidden="true">🔒</span>
+        </a>
+      </nav>
+    </aside>  
+
+    <div class="main-area">
+      <main class="content-main">
+        <div class="page-header-card">
+          <div class="hero-pill" data-i18n="ev_pill">Paso 1 • Requisito inicial obligatorio</div>
+          <h1 data-i18n="ev_h1">Test obligatorio de diagnóstico</h1>
+          <p class="lead-text" data-i18n-html="ev_lead">
+            Responde estas <strong>9 preguntas</strong> sobre los temas previos (<strong>Memoria virtual</strong>, <strong>Entrada/Salida</strong> y <strong>Seguridad</strong>).
+            Necesitas al menos <strong id="min">6 de 9</strong> respuestas correctas para desbloquear los módulos de
+            <em>Sistemas embebidos</em>, <em>Sistemas en tiempo real</em> y <em>Tolerancia a fallos</em>.
+          </p>
+
+          <div id="locked-alert" class="alert-banner alert-warn" hidden data-i18n-html="ev_locked_alert">
+            <strong>🔒 Acceso bloqueado por el kernel:</strong> Intentaste abrir un módulo protegido. Aprueba primero este test obligatorio para habilitar toda la navegación del OVA.
+          </div>
+
+          <div class="quiz-telemetry">
+            <span id="quiz-answered-count">Respondidas: <strong>0</strong> de <strong>9</strong></span>
+            <div class="quiz-mini-track">
+              <div class="quiz-mini-fill" id="quiz-answered-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <form id="test" class="quiz-form"></form>
+        <div id="resultado" aria-live="polite"></div>
+
+        <p class="cita" data-i18n="ev_cite">Preguntas basadas en Silberschatz et al. (2006), capítulos de memoria virtual, sistemas de E/S y seguridad.</p>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-details">
+            <div class="footer-academic-list">
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_faculty">Facultad de Ingeniería</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n="ft_program">Ingeniería de Sistemas</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_course"><strong>Asignatura:</strong> Sistemas Operativos</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_teacher"><strong>Docente:</strong> Alvaro Salamanca Lándinez</span></div>
+              <div class="footer-item"><span class="footer-dot"></span><span data-i18n-html="ft_author"><strong>Desarrollado por:</strong> Andrea Rodríguez</span></div>
+            </div>
+            <div class="footer-ref" data-i18n-html="ft_ref">
+              <strong>Referencia bibliográfica (APA 7.ª):</strong> Silberschatz, A., Galvin, P. B., &amp; Gagne, G. (2006). <em>Fundamentos de sistemas operativos</em> (7.ª ed.). McGraw-Hill.
+            </div>
+          </div>
+          <div class="footer-brand">
+            <div class="footer-logo-ring">
+              <img src="logo-so.png" alt="Logo OVA Sistemas Operativos" class="footer-so-logo">
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal / Toast de Bloqueo del Kernel -->
+  <div class="gate-modal" id="gate-modal" hidden role="dialog" aria-modal="true" aria-labelledby="gate-modal-title">
+    <div class="gate-modal-card">
+      <div class="gate-modal-badge" data-i18n="modal_badge">🔒 Acceso restringido por el kernel</div>
+      <h3 id="gate-modal-title" data-i18n="modal_title">Completa primero el test obligatorio</h3>
+      <p data-i18n-html="modal_body">Para ingresar a <strong id="gate-target-name">este módulo</strong>, primero debes aprobar el <strong>Test obligatorio (Paso 1)</strong> sobre Memoria virtual, Entrada/Salida y Seguridad (mínimo 6 de 9 respuestas correctas).</p>
+      <div class="gate-modal-actions">
+        <a href="evaluacion.html" class="btn-neon" data-i18n="modal_cta">Iniciar test obligatorio →</a>
+        <button type="button" class="btn-ghost" id="close-gate-modal" data-i18n="modal_close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
